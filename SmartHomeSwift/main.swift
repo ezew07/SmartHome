@@ -7,4 +7,6 @@
 
 import Foundation
 
+let home = Lighting(deviceName: "Main lights")
 
+home.toggleDeviceState()

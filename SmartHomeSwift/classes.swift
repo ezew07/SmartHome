@@ -1,58 +1,72 @@
-//
-//  classes.swift
-//  SmartHomeSwift
-//
-//  Created by Ouahchia, Mohamed (JD) on 29/11/2023.
-//
 
 import Foundation
 
-enum ErrorState {
-    case successful
-    case unsuccessful
+func getInt(prompt: String) -> Int {
+  print(prompt)
+  if let input = readLine(){
+    if let integer = Int(input){
+      return integer
+    }
+  }
+  return -1
+}
+ 
+func getStr(prompt: String) -> String {
+  print(prompt)
+  if let input = readLine(){
+    return input
+  }
+  return "-1"
+}
+ 
+func getDouble(prompt: String) -> Double{
+  print(prompt)
+  if let input = readLine(){
+    if let double = Double(input){
+      return double
+    }
+  }
+  return -1.0
 }
 
-class Device {
-    private var state: Bool = true // true is on, false is off
-    func toggleState() {
+class Device{
+    private var state = true // true is on and false is off
+    private var deviceName = String()
+    
+    func toggleDeviceState(){
         state = !state
-    }
-}
-
-class SmartHome {
-    private var network: String
-    private var smartHomeID: String
-    private var rooms = [String: Room]()
-    init(network: String, smartHomeID: String) {
-        self.network = network
-        self.smartHomeID = smartHomeID
-    }
-    func addRoom(id: String, room: Room) {
-        rooms[id] = room
-    }
-    func removeRoom(id: String) {
-        rooms[id] = nil
-    }
-}
-
-class Room {
-    private var devices = [Device]()
-    private var friendlyName: String
-    func toggleMasterSwitch() {
-        for device in devices {
-            device.toggleState()
+        switch state{
+        case true:
+            print("\(deviceName): Successfully switched on")
+        case false:
+            print("\(deviceName): Successfully switched off")
         }
     }
-    func addDevice(device: Device) -> ErrorState {
-        devices.append(device)
-        return ErrorState.successful
+    func outputStatus(){
+        print(state)
     }
-    init(friendlyName: String) {
-        self.friendlyName = friendlyName
+    
+    init(deviceName: String = String()) {
+        self.deviceName = deviceName
     }
-}
-
-class Camera: Device {
     
 }
 
+class Lighting: Device{
+    private var colour = String()
+    private var luminance = Int()
+    
+    func changeColour(){
+        let colourToChangeTo = getStr(prompt: "Which colour would you like to change your light to?")
+        self.colour = colourToChangeTo
+    }
+    func changeLuminance(){
+        let luminanceToChangeTo = getInt(prompt: "Set the brightness of the light (1-10)?")
+        self.luminance = luminanceToChangeTo
+    }
+}
+
+class SoundSystem: Device{
+    private var volume = Int()
+    private var surroundSound
+}
